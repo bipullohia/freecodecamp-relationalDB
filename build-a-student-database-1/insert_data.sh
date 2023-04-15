@@ -9,7 +9,7 @@ echo $($PSQL "truncate students, majors, courses, majors_courses")
 #Script to insert data from courses.csv and students.csv into students database
 cat courses.csv | while IFS="," read MAJOR COURSE
 do
-  if [[ $MAJOR != major ]]
+  if [[ $MAJOR != major ]] #checking to see if the first row of the csv file is for headers or actual data. Skip if it is heading and continue if it is not
     then
       #get major_id
       MAJOR_ID=$($PSQL "select major_id from majors where major='$MAJOR'")
@@ -50,7 +50,7 @@ do
   fi  
 done
 
-
+#reading info from the students.csv to insert into students table
 cat students.csv | while IFS="," read FIRST LAST MAJOR GPA
 do
   if [[ $FIRST != "first_name" ]]
